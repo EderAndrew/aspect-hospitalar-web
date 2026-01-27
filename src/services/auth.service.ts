@@ -21,8 +21,6 @@ export const signIn = async (payload: Login) => {
       );
     }
 
-    console.log(data);
-
     return data;
   } catch (error) {
     if (error instanceof Error) {

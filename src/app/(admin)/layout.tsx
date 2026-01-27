@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { AuthHydrator } from "@/components/auth-hydrator";
-import { getMe } from "@/services/user.services";
+import { getMe } from "@/services/user.service";
 
 export default async function AdminLayout({
   children,

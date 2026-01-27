@@ -14,7 +14,7 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
 import { useState } from "react";
-import { signIn } from "@/services/auth.services";
+import { signIn } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { loginFormSchema } from "@/schemas/login.schema";
 

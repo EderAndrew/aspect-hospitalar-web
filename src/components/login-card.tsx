@@ -14,14 +14,14 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
 import { useState } from "react";
-
-const loginFormSchema = z.object({
-  email: z.email(),
-  password: z.string().min(6, "Senha deve ter ao menos 6 caracteres."),
-});
+import { signIn } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
+import { loginFormSchema } from "@/schemas/login.schema";
 
 export const LoginCard = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -31,7 +31,17 @@ export const LoginCard = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof loginFormSchema>) => {
-    console.log(data);
+    setIsLoading(true);
+
+    try {
+      await signIn(data);
+      router.push("/dashboard");
+      router.refresh();
+    } catch (error) {
+      console.error("Erro de Login: ", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

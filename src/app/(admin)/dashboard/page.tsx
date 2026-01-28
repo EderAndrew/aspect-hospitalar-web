@@ -2,6 +2,8 @@ import { ExamsTab } from "@/components/exams/exam-tabs";
 import { allExams } from "@/services/exams.service";
 import { findAllActivedSchedule } from "@/services/schedule.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function Dashboard() {
   const availableExams = await allExams();
   const response = await findAllActivedSchedule();

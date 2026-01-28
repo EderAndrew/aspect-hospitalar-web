@@ -69,3 +69,32 @@ export const findAllActivedSchedule = async (
     return null;
   }
 };
+
+export const remove = async (id: string) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token");
+
+  if (!token) {
+    throw new Error("Token de autenticação não encontrado");
+  }
+
+  const resp = await fetch(
+    `${process.env.API_URL}/schedules/removeSchedule/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token.value}`,
+      },
+      body: JSON.stringify({ status: false }),
+      credentials: "include",
+    },
+  );
+  const data = await resp.json();
+
+  if (!resp.ok) {
+    throw new Error(data?.message || "Erro ao remover Agendamento");
+  }
+
+  return data;
+};

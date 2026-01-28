@@ -6,9 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Calendar, Clock, FileText, Trash2, User } from "lucide-react";
+import { Calendar, Clock, FileText, User } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+import { RemoveDialog } from "./remove-dialog";
 
 type Props = {
   schedule: Schedules;
@@ -48,10 +48,7 @@ export const SchedulingList = ({ schedule }: Props) => {
                   </div>
                 </div>
               </div>
-              <Button variant="destructive" size="sm">
-                <Trash2 className="size-4 mr-2" />
-                Excluir
-              </Button>
+              <RemoveDialog scheduleId={schedule.id} />
             </div>
             {schedule.info && (
               <div className="pt-2 border-t">

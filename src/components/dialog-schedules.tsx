@@ -89,7 +89,6 @@ export const DialogSchedules = ({ exam }: Props) => {
     setisLoading(true);
     try {
       const resp = await createSchedule(formData);
-      console.log(resp);
       toast.success(resp.message);
     } catch (error) {
       console.error("Erro ao submeter formulário:", error);

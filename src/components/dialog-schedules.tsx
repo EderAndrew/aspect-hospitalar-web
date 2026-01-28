@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Textarea } from "./ui/textarea";
 import {
   Select,
@@ -36,6 +36,7 @@ import { ScheduleFormSchema } from "@/schemas/schedule.schema";
 import z from "zod";
 import { useAuthStore } from "@/stores/auth-store";
 import { createSchedule } from "@/services/actions/schedules.actions";
+import { toast } from "sonner";
 
 type Props = {
   exam: Exam;
@@ -43,13 +44,14 @@ type Props = {
 
 export const DialogSchedules = ({ exam }: Props) => {
   const [open, setOpen] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const availableTimes = AvailableTimes();
   const { user } = useAuthStore((state) => state);
 
   const form = useForm<z.infer<typeof ScheduleFormSchema>>({
     resolver: zodResolver(ScheduleFormSchema),
     defaultValues: {
-      userId: user?.id,
+      userId: user?.id || "",
       examId: exam.id,
       patient: "",
       date: "",
@@ -59,14 +61,45 @@ export const DialogSchedules = ({ exam }: Props) => {
     },
   });
 
+  // Atualizar userId quando o usuário estiver disponível ou quando o dialog abrir
+  useEffect(() => {
+    if (open && user?.id) {
+      form.setValue("userId", user.id);
+    }
+  }, [user, form, open]);
+
+  // Garantir que userId está definido antes de submeter
   const onSubmit = async (values: z.infer<typeof ScheduleFormSchema>) => {
+    // Verificar se userId está definido, se não, buscar do store
+    const currentUserId =
+      values.userId || user?.id || useAuthStore.getState().user?.id;
+
+    if (!currentUserId) {
+      toast.error(
+        "Erro: Usuário não identificado. Por favor, faça login novamente.",
+      );
+      return;
+    }
+
+    // Garantir que o userId está no objeto values
+    const formData = {
+      ...values,
+      userId: currentUserId,
+    };
+    setisLoading(true);
     try {
-      await createSchedule(values);
-      setOpen(false);
-      form.reset();
+      const resp = await createSchedule(formData);
+      console.log(resp);
+      toast.success(resp.message);
     } catch (error) {
       console.error("Erro ao submeter formulário:", error);
-      alert(error instanceof Error ? error.message : "Erro ao agendar exame");
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao agendar exame",
+      );
+    } finally {
+      setisLoading(false);
+      setOpen(false);
+      form.reset();
     }
   };
 
@@ -94,6 +127,11 @@ export const DialogSchedules = ({ exam }: Props) => {
             <form
               onSubmit={form.handleSubmit(onSubmit, (errors) => {
                 console.error("Erros de validação:", errors);
+                if (errors.userId) {
+                  toast.error(
+                    "Erro: Usuário não identificado. Por favor, recarregue a página.",
+                  );
+                }
               })}
               className="space-y-8"
             >
@@ -178,7 +216,9 @@ export const DialogSchedules = ({ exam }: Props) => {
                 >
                   Cancelar
                 </Button>
-                <Button type="submit">Confirmar Agendamento</Button>
+                <Button type="submit">
+                  {!isLoading ? "Confirmar Agendamento" : "Agendando..."}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

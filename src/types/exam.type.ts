@@ -1,5 +1,5 @@
 export type Exam = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   specialty: string;

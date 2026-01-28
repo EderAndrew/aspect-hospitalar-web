@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { AuthHydrator } from "@/components/auth-hydrator";
 import { getMe } from "@/services/user.service";
+import { Toaster } from "sonner";
 
 export default async function AdminLayout({
   children,
@@ -14,6 +15,7 @@ export default async function AdminLayout({
     <>
       <AuthHydrator user={me.user} />
       <main className="flex flex-col min-h-screen w-full">{children}</main>
+      <Toaster />
     </>
   );
 }

@@ -1,14 +1,8 @@
 import z from "zod";
 
 export const ScheduleFormSchema = z.object({
-  userId: z
-    .uuid("ID do usuário deve ser um UUID válido")
-    .min(1, "ID do usuário é obrigatório"),
-
-  examId: z
-    .uuid("ID do exame deve ser um UUID válido")
-    .min(1, "ID do exame é obrigatório"),
-
+  userId: z.string().min(1, "ID do usuário é obrigatório"),
+  examId: z.string().min(1, "ID do exame é obrigatório"),
   patient: z
     .string()
     .min(2, "Nome do paciente deve ter pelo menos 2 caracteres")

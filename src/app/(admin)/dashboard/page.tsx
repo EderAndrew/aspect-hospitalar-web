@@ -1,8 +1,12 @@
 import { ExamsTab } from "@/components/exams/exam-tabs";
 import { allExams } from "@/services/exams.service";
+import { findAllActivedSchedule } from "@/services/schedule.service";
 
 export default async function Dashboard() {
   const availableExams = await allExams();
+  const response = await findAllActivedSchedule();
+  const schedules = response?.items ?? [];
+  const countSchedules = response?.total;
 
   return (
     <div className="min-h-screen bg-background p-5">
@@ -14,7 +18,11 @@ export default async function Dashboard() {
           </p>
         </div>
       </div>
-      <ExamsTab availableExams={availableExams} />
+      <ExamsTab
+        availableExams={availableExams}
+        schedules={schedules}
+        counts={countSchedules}
+      />
     </div>
   );
 }

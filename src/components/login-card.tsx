@@ -20,6 +20,7 @@ import { loginFormSchema } from "@/schemas/login.schema";
 
 export const LoginCard = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -32,13 +33,22 @@ export const LoginCard = () => {
 
   const onSubmit = async (data: z.infer<typeof loginFormSchema>) => {
     setIsLoading(true);
-
+    setError(null);
     try {
-      await signIn(data);
+      const resp = await signIn(data);
+
+      if (resp.statusCode === 401) {
+        setError(resp.message);
+      }
       router.push("/dashboard");
       router.refresh();
     } catch (error) {
-      console.error("Erro de Login: ", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erro ao fazer login. Verifique suas credenciais.";
+      setError(errorMessage);
+      console.error("Erro no login:", error);
     } finally {
       setIsLoading(false);
     }
@@ -59,6 +69,11 @@ export const LoginCard = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {error && (
+            <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              {error}
+            </div>
+          )}
           <FieldGroup>
             <Controller
               name="email"

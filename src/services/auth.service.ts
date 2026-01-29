@@ -2,7 +2,13 @@ import { Login } from "@/types/login.type";
 
 const api = process.env.NEXT_PUBLIC_API_URL;
 
-export const signIn = async (payload: Login) => {
+type Signin = {
+  message: string;
+  error: string;
+  statusCode: number;
+};
+
+export const signIn = async (payload: Login): Promise<Signin> => {
   try {
     const resp = await fetch(`${api}/auth/login`, {
       method: "POST",
@@ -13,13 +19,7 @@ export const signIn = async (payload: Login) => {
       credentials: "include",
     });
 
-    const data = await resp.json();
-
-    if (!resp.ok) {
-      throw new Error(
-        data?.message || "Erro ao autenticar. Verifique suas credenciais.",
-      );
-    }
+    const data: Signin = await resp.json();
 
     return data;
   } catch (error) {

@@ -1,6 +1,7 @@
 import "server-only";
 import { User } from "@/types/user.type";
 import { cookies } from "next/headers";
+import { fetchWithAuth } from "@/lib/fetch-with-auth";
 
 export const getMe = async (): Promise<{ user: User } | null> => {
   try {
@@ -9,17 +10,9 @@ export const getMe = async (): Promise<{ user: User } | null> => {
 
     if (!token) return null;
 
-    const resp = await fetch(`${process.env.API_URL}/users/me`, {
-      headers: {
-        Cookie: `access_token=${token.value}`,
-      },
-      cache: "no-store",
-    });
+    const resp = await fetchWithAuth(`${process.env.API_URL}/users/me`);
 
     if (!resp.ok) {
-      console.error(
-        `Erro ao buscar usuário: ${resp.status} ${resp.statusText}`,
-      );
       return null;
     }
     const data = await resp.json();

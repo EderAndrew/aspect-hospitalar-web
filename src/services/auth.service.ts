@@ -1,4 +1,5 @@
 import { Login } from "@/types/login.type";
+import { redirect } from "next/navigation";
 
 const api = process.env.NEXT_PUBLIC_API_URL;
 
@@ -28,4 +29,14 @@ export const signIn = async (payload: Login): Promise<Signin> => {
     }
     throw new Error("Erro de conexão. Tente novamente mais tarde.");
   }
+};
+
+export const Logout = async () => {
+  await fetch(`${api}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+    cache: "no-store",
+  });
+
+  redirect("/");
 };

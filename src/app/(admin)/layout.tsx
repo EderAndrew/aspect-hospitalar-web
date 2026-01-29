@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import { AuthHydrator } from "@/components/auth-hydrator";
 import { getMe } from "@/services/user.service";
 import { Toaster } from "sonner";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { SidebarHeaderApp } from "@/components/sidebar/sidebar-header";
 
 export default async function AdminLayout({
   children,
@@ -14,7 +17,13 @@ export default async function AdminLayout({
   return (
     <>
       <AuthHydrator user={me.user} />
-      <main className="flex flex-col min-h-screen w-full">{children}</main>
+      <SidebarProvider defaultOpen={false}>
+        <AppSidebar />
+        <main className="flex flex-col min-h-screen w-full">
+          <SidebarHeaderApp />
+          {children}
+        </main>
+      </SidebarProvider>
       <Toaster />
     </>
   );

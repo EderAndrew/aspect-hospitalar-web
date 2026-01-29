@@ -1,7 +1,7 @@
 import { Login } from "@/types/login.type";
 
 const api = process.env.NEXT_PUBLIC_API_URL;
-console.log("API: ", api);
+
 export const signIn = async (payload: Login) => {
   try {
     const resp = await fetch(`${api}/auth/login`, {

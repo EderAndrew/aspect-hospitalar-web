@@ -2,7 +2,6 @@ module.exports = {
   apps: [
     {
       name: "aspect-web",
-      cwd: path.resolve(__dirname),
       script: ".next/standalone/server.js",
       instances: 1,
       exec_mode: "fork",

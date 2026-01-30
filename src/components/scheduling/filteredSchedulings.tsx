@@ -9,6 +9,7 @@ import { Calendar, Clock, FileText, User } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Schedules } from "@/types/schedule.type";
 import { RemoveDialog } from "../remove-dialog";
+import { EditDialog } from "./editScheduling/editDialog";
 
 type Props = {
     scheduling: Schedules
@@ -48,7 +49,10 @@ export const FilteredSchedulings = ({scheduling}:Props) => {
                     </div>
                   </div>
                 </div>
-                <RemoveDialog scheduleId={scheduling.id} />
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <EditDialog scheduling={scheduling}/>
+                  <RemoveDialog scheduleId={scheduling.id} />
+                </div>
               </div>
               {scheduling.info && (
                 <div className="pt-2 border-t">

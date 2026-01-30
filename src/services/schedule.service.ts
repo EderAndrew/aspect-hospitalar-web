@@ -1,21 +1,17 @@
 import "server-only";
-import { Schedule, Schedules } from "@/types/schedule.type";
-import { cookies } from "next/headers";
+import { EditSchedule, Schedule, Schedules } from "@/types/schedule.type";
+import { Token } from "./token";
 
 type PaginatedResponse<T> = {
   items: T[];
   total: number;
 };
 
+const api = process.env.API_URL
+
 export const create = async (schedule: Schedule) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token");
-
-  if (!token) {
-    throw new Error("Token de autenticação não encontrado");
-  }
-
-  const resp = await fetch(`${process.env.API_URL}/schedules/create`, {
+  const token = await Token()
+  const resp = await fetch(`${api}/schedules/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,13 +35,9 @@ export const findAllActivedSchedule = async (
   offset = 0,
 ): Promise<PaginatedResponse<Schedules> | null> => {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("access_token");
-
-    if (!token) return null;
-
+    const token = await Token()
     const resp = await fetch(
-      `${process.env.API_URL}/schedules/allActiveSchedules?limit=${limit}&offset=${offset}`,
+      `${api}/schedules/allActiveSchedules?limit=${limit}&offset=${offset}`,
       {
         headers: {
           Cookie: `access_token=${token.value}`,
@@ -70,16 +62,36 @@ export const findAllActivedSchedule = async (
   }
 };
 
-export const remove = async (id: string) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token");
+export const update = async (id:string, payload:EditSchedule): Promise<{message: string}> => {
+  const token = await Token()
+  const resp = await fetch(
+    `${api}/schedules/updateSchedule/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token.value}`,
+      },
+      body: JSON.stringify({ 
+        date: payload.date,
+        time: payload.time
+       }),
+      credentials: "include",
+    },
+  );
+  const data = await resp.json();
 
-  if (!token) {
-    throw new Error("Token de autenticação não encontrado");
+  if (!resp.ok) {
+    throw new Error(data?.message || "Erro ao atualizar Agendamento");
   }
 
+  return data;
+}
+
+export const remove = async (id: string) => {
+  const token = await Token()
   const resp = await fetch(
-    `${process.env.API_URL}/schedules/removeSchedule/${id}`,
+    `${api}/schedules/removeSchedule/${id}`,
     {
       method: "PATCH",
       headers: {

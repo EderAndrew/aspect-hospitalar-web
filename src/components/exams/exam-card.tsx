@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Exam } from "@/types/exam.type";
-import { DialogSchedules } from "../dialog-schedules";
+import { DialogSchedules } from "../scheduling/dialog-schedules";
 
 interface Props {
   exam: Exam;

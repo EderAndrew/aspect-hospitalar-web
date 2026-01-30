@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { Button } from "./ui/button";
+
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../ui/dialog";
 
 import { Exam } from "@/types/exam.type";
 import { useForm } from "react-hook-form";
@@ -20,23 +20,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 import { useState, useEffect } from "react";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import { AvailableTimes } from "@/utils/availableTimes.utils";
 import { ScheduleFormSchema } from "@/schemas/schedule.schema";
 import z from "zod";
 import { useAuthStore } from "@/stores/auth-store";
 import { createSchedule } from "@/services/actions/schedules.actions";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
 type Props = {
   exam: Exam;

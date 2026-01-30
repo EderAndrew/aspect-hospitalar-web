@@ -24,3 +24,8 @@ export type Schedules = {
 type UserName = {
   name: string;
 };
+
+export type EditSchedule = {
+  date?: string;
+  time?: string;
+}

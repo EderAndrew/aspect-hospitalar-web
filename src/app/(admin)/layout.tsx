@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { AuthHydrator } from "@/components/auth-hydrator";
+import { AuthHydrator } from "@/lib/auth-hydrator";
 import { getMe } from "@/services/user.service";
 import { Toaster } from "sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";

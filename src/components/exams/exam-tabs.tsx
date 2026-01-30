@@ -3,16 +3,14 @@ import { CalendarCheck, FileText } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Exam } from "@/types/exam.type";
 import { ExamCard } from "./exam-card";
-import { Schedules } from "@/types/schedule.type";
-import { SchedulingList } from "../schedulingList";
+import { SchedulingList } from "../scheduling/schedulingList";
+import { useSchedulesStore } from "@/stores/schedule-store";
 
 type Props = {
   availableExams: Exam[] | null;
-  schedules: Schedules[] | null;
-  counts: number | undefined;
 };
-export const ExamsTab = ({ availableExams, schedules, counts }: Props) => {
-  console.log(schedules?.length);
+export const ExamsTab = ({ availableExams }: Props) => {
+  const { count } = useSchedulesStore(state => state)
   return (
     <Tabs defaultValue="exams" className="space-y-6">
       <TabsList className="grid w-full max-w-md grid-cols-2">
@@ -24,7 +22,7 @@ export const ExamsTab = ({ availableExams, schedules, counts }: Props) => {
           <CalendarCheck className="size-4" />
           Exames Agendados
           <span className="ml-1 bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs">
-            {counts}
+            {count}
           </span>
         </TabsTrigger>
       </TabsList>
@@ -40,15 +38,7 @@ export const ExamsTab = ({ availableExams, schedules, counts }: Props) => {
         </div>
       </TabsContent>
       <TabsContent value="schedulings" className="space-y-4">
-        {schedules && schedules.length > 0 ? (
-          schedules.map((schedule) => (
-            <SchedulingList key={schedule.id} schedule={schedule} />
-          ))
-        ) : (
-          <div className="col-span-full text-center py-8 text-muted-foreground">
-            Nenhum Agendamento disponível no momento.
-          </div>
-        )}
+        <SchedulingList />
       </TabsContent>
     </Tabs>
   );

@@ -1,50 +1,56 @@
 # Aspect Hospitalar - Sistema de Agendamento de Exames
 
-Sistema web moderno e responsivo para gerenciamento de agendamentos de exames hospitalares, desenvolvido com **Next.js 16**, **React 19** e **TypeScript 5**. Oferece uma experiência intuitiva e segura para pacientes agendar exames e administradores gerenciarem a agenda hospitalar.
+Sistema web moderno e responsivo para gerenciamento de agendamentos de exames hospitalares, desenvolvido com **Next.js 16.1.5**, **React 19.2.3** e **TypeScript 5**. Oferece uma experiência intuitiva e segura para pacientes agendar exames e administradores gerenciarem a agenda hospitalar com output standalone otimizado para deploy em containers.
 
 ## ✨ Destaques
 
-- 🔐 **Autenticação Segura** - Cookies HTTP-only e validação robusta
+- 🔐 **Autenticação Segura** - Cookies HTTP-only e validação robusta com Zustand
 - 📅 **Agendamento Intuitivo** - Interface simples e rápida para marcar exames
-- 📊 **Dashboard Completo** - Visualização e gerenciamento de agendamentos
-- 🎨 **Interface Responsiva** - Design moderno adaptável a qualquer dispositivo
-- ⚡ **Performance Otimizada** - Renderização SSR/CSR com Next.js App Router
+- 📊 **Dashboard Completo** - Visualização e gerenciamento de agendamentos em tempo real
+- 🎨 **Interface Responsiva** - Design moderno adaptável a qualquer dispositivo com Tailwind CSS v4
+- ⚡ **Performance Otimizada** - Renderização SSR/CSR com Next.js 16 App Router
 - ♿ **Acessível** - Componentes construídos sobre Radix UI Primitives
-- 📝 **Type-Safe** - Tipagem completa com TypeScript e Zod
+- 📝 **Type-Safe** - Tipagem completa com TypeScript 5 e validação com Zod
+- 🐳 **Container Ready** - Configurado com output standalone para Docker/deploy em produção
 
 ## 🚀 Stack Tecnológico
 
 ### Core Framework
 | Tecnologia | Versão | Descrição |
 |---|---|---|
-| **Next.js** | 16.1.5 | Framework React com App Router e Server Components |
+| **Next.js** | 16.1.5 | Framework React com App Router, Server Components e output standalone |
 | **React** | 19.2.3 | Biblioteca para construção de interfaces |
+| **React DOM** | 19.2.3 | Renderização React no navegador |
 | **TypeScript** | 5 | Tipagem estática para JavaScript |
 
 ### Gerenciamento de Estado e Dados
 | Tecnologia | Versão | Propósito |
 |---|---|---|
-| **Zustand** | 5.0.10 | Estado global leve (autenticação) |
-| **React Hook Form** | 7.71.1 | Gerenciamento eficiente de formulários |
+| **Zustand** | 5.0.10 | Estado global leve e reativo (autenticação e agendamentos) |
+| **React Hook Form** | 7.71.1 | Gerenciamento eficiente de formulários com validação |
 | **Zod** | 4.3.6 | Validação de schemas com TypeScript |
 | **@hookform/resolvers** | 5.2.2 | Integração React Hook Form + Zod |
 
 ### UI e Estilização
 | Tecnologia | Versão | Uso |
 |---|---|---|
-| **Tailwind CSS** | 4 | CSS utility-first para estilização |
+| **Tailwind CSS** | 4 | CSS utility-first para estilização moderna |
+| **@tailwindcss/postcss** | 4 | Pipeline PostCSS do Tailwind CSS v4 |
 | **shadcn/ui** | Latest | Componentes acessíveis baseados em Radix UI |
-| **Radix UI Primitives** | Latest | Primitivos acessíveis sem estilos |
-| **Lucide React** | 0.563.0 | Ícones modernos e leves |
-| **Sonner** | 2.0.7 | Notificações toast elegantes |
-| **CVA** | 0.7.1 | Gerenciamento de variantes de classes |
+| **Radix UI** | v1 | Primitivos acessíveis sem estilos (Avatar, Dialog, Dropdown, Select, Tabs, Tooltip) |
+| **Lucide React** | 0.563.0 | Ícones SVG modernos e leves |
+| **Sonner** | 2.0.7 | Notificações toast elegantes e acessíveis |
+| **Class Variance Authority (CVA)** | 0.7.1 | Gerenciamento de variantes de classes |
 
 ### Ferramentas e Dependências
-- **ESLint** - Linting de código JavaScript/TypeScript
-- **Geist Font** - Fonte otimizada da Vercel
-- **next-themes** - Suporte a temas claro/escuro
-- **clsx** - Manipulação condicional de classes
-- **tailwind-merge** - Merge inteligente de classes Tailwind
+| Tecnologia | Versão | Propósito |
+|---|---|---|
+| **ESLint** | 9 | Linting de código JavaScript/TypeScript |
+| **eslint-config-next** | 16.1.5 | Configuração ESLint otimizada para Next.js |
+| **next-themes** | 0.4.6 | Suporte a temas claro/escuro persistente |
+| **clsx** | 2.1.1 | Manipulação condicional de classes CSS |
+| **tailwind-merge** | 3.4.0 | Merge inteligente de classes Tailwind |
+| **tw-animate-css** | 1.4.0 | Animações Tailwind CSS adicionais |
 
 ## 📁 Estrutura do Projeto
 

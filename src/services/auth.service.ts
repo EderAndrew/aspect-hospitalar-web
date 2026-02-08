@@ -31,6 +31,17 @@ export const signIn = async (payload: Login): Promise<Signin> => {
   }
 };
 
+export const refreshToken = async () => {
+  const resp = await fetch(`${api}/auth/refresh`, {
+    method: "POST",
+    credentials: "include", // OBRIGATÓRIO
+  });
+
+  if (!resp.ok) throw new Error("Refresh falhou");
+
+  return resp.json();
+};
+
 export const Logout = async () => {
   await fetch(`${api}/auth/logout`, {
     method: "POST",

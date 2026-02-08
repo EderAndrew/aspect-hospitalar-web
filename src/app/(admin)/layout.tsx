@@ -16,7 +16,7 @@ export default async function AdminLayout({
 
   return (
     <>
-      <AuthHydrator user={me.user} />
+      <AuthHydrator user={me.user} key={me.user.id} />
       <SidebarProvider defaultOpen={false}>
         <AppSidebar />
         <main className="flex flex-col min-h-screen w-full">
